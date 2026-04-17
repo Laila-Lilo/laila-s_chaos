@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Final Chaos Buttons</title>
+  <title>MEGA CHAOS BUTTONS</title>
 
   <style>
     body {
       font-family: Arial;
       text-align: center;
       background: white;
-      transition: 0.2s;
       overflow: hidden;
+      transition: 0.2s;
+    }
+
+    #panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
     }
 
     button {
+      width: 220px;
+      padding: 10px;
       font-size: 13px;
-      margin: 4px;
-      padding: 8px;
       cursor: pointer;
-      position: relative;
     }
 
-    .big { transform: scale(1.6); }
-
-    .shake { animation: shake 0.12s infinite; }
+    .shake { animation: shake 0.1s infinite; }
 
     @keyframes shake {
       0% { transform: translate(2px,2px); }
@@ -30,126 +35,161 @@
       100% { transform: translate(2px,2px); }
     }
 
-    .purple {
-      background: #a855f7;
-      color: white;
-    }
-
-    .flash {
-      animation: flash 0.2s;
-    }
-
-    @keyframes flash {
-      0% { background: white; }
-      50% { background: yellow; }
-      100% { background: white; }
+    .bounceTitle {
+      position: relative;
     }
   </style>
 </head>
 
 <body>
 
-<h1 id="title">⚡ FINAL CHAOS ⚡</h1>
-<h3 id="score">CHAOS SCORE: 0</h3>
+<h1 id="title">⚡ MEGA CHAOS BUTTONS ⚡</h1>
+<h3 id="score">Score: 0</h3>
 
-<!-- BUTTONS -->
-<button onclick="color()">🎨 Color</button>
-<button onclick="spin()">🌀 Spin</button>
-<button onclick="big()">🔍 Big</button>
-<button onclick="shake()">📳 Shake</button>
-<button onclick="sound()">🔊 Sound</button>
-<button onclick="explode()">💥 Explode</button>
-<button onclick="purple()">🟣 Purple Mode</button>
-<button onclick="randomAll()">🎲 RANDOM CHAOS</button>
-<button onclick="reset()">🔄 Reset</button>
+<div id="panel">
+
+  <button onclick="randomColor()">🎨 Random Color</button>
+  <button onclick="flash()">⚡ Flash</button>
+  <button onclick="grow()">📏 Grow</button>
+  <button onclick="shrink()">📉 Shrink</button>
+  <button onclick="rain()">🌧 Rain</button>
+  <button onclick="earthquake()">🌍 Earthquake</button>
+  <button onclick="night()">🌙 Night Mode</button>
+  <button onclick="day()">☀️ Day Mode</button>
+  <button onclick="bounce()">🏀 Bounce Title</button>
+  <button onclick="spawn()">👾 Spawn Enemies</button>
+  <button onclick="shake()">📳 Shake</button>
+  <button onclick="reset()">🔄 Reset Everything</button>
+
+</div>
 
 <script>
 
 let score = 0;
 
-function addScore(n) {
+function add(n){
   score += n;
-  document.getElementById("score").innerText = "CHAOS SCORE: " + score;
+  document.getElementById("score").innerText = "Score: " + score;
 }
 
-function color() {
-  document.body.style.background =
-    `rgb(${r()},${r()},${r()})`;
-  addScore(1);
+function r(){
+  return Math.floor(Math.random()*255);
 }
 
-function spin() {
-  document.body.style.transform =
-    `rotate(${Math.random()*50 - 25}deg)`;
-  addScore(2);
+/* 🎨 COLORS */
+function randomColor(){
+  document.body.style.background = `rgb(${r()},${r()},${r()})`;
+  add(1);
 }
 
-function big() {
-  document.body.classList.toggle("big");
-  addScore(3);
+/* ⚡ FLASH */
+function flash(){
+  document.body.style.background = "white";
+  setTimeout(()=>{
+    document.body.style.background = `rgb(${r()},${r()},${r()})`;
+  },100);
+  add(2);
 }
 
-function shake() {
+/* 📏 GROW / SHRINK */
+function grow(){
+  document.body.style.transform = "scale(1.2)";
+  add(2);
+}
+
+function shrink(){
+  document.body.style.transform = "scale(0.8)";
+  add(2);
+}
+
+/* 🌧 RAIN */
+function rain(){
+  for(let i=0;i<15;i++){
+    let e = document.createElement("div");
+    e.innerText = "🎉";
+    e.style.position = "absolute";
+    e.style.left = Math.random()*window.innerWidth + "px";
+    e.style.top = "-20px";
+    document.body.appendChild(e);
+
+    let fall = setInterval(()=>{
+      e.style.top = e.offsetTop + 5 + "px";
+      if(e.offsetTop > window.innerHeight){
+        e.remove();
+        clearInterval(fall);
+      }
+    },20);
+  }
+  add(3);
+}
+
+/* 🌍 EARTHQUAKE */
+function earthquake(){
   document.body.classList.toggle("shake");
-  addScore(2);
+  add(3);
 }
 
-function sound() {
-  let audio = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
-  audio.play();
-  addScore(5);
+/* 🌙 NIGHT / ☀️ DAY */
+function night(){
+  document.body.style.background = "#000";
+  document.body.style.color = "#fff";
+  add(2);
 }
 
-function explode() {
-  document.body.classList.add("flash");
-  document.getElementById("title").innerText = "💥 BOOM 💥";
-
-  setTimeout(() => {
-    document.body.classList.remove("flash");
-    document.getElementById("title").innerText = "⚡ FINAL CHAOS ⚡";
-  }, 300);
-  addScore(10);
+function day(){
+  document.body.style.background = "#fff";
+  document.body.style.color = "#000";
+  add(2);
 }
 
-function purple() {
-  document.body.style.background = "#2a003f";
-  document.body.style.color = "white";
+/* 🏀 BOUNCE TITLE */
+function bounce(){
+  let t = document.getElementById("title");
+  let pos = 0;
+  let dir = 2;
 
-  document.querySelectorAll("button").forEach(b => {
-    b.classList.toggle("purple");
-  });
+  let move = setInterval(()=>{
+    pos += dir;
+    t.style.position = "relative";
+    t.style.top = pos + "px";
 
-  addScore(7);
+    if(pos > 30 || pos < 0) dir *= -1;
+  },20);
+
+  setTimeout(()=>clearInterval(move),2000);
+  add(5);
 }
 
-function randomAll() {
-  color();
-  spin();
-  big();
-  shake();
-  sound();
-  explode();
-  purple();
-  addScore(20);
+/* 👾 SPAWN */
+function spawn(){
+  for(let i=0;i<10;i++){
+    let e = document.createElement("div");
+    e.innerText = "👾";
+    e.style.position = "absolute";
+    e.style.left = Math.random()*window.innerWidth + "px";
+    e.style.top = Math.random()*window.innerHeight + "px";
+    document.body.appendChild(e);
+
+    setTimeout(()=>e.remove(),3000);
+  }
+  add(5);
 }
 
-function reset() {
+/* 📳 SHAKE */
+function shake(){
+  document.body.classList.toggle("shake");
+  add(2);
+}
+
+/* 🔄 RESET */
+function reset(){
   document.body.style.background = "white";
   document.body.style.transform = "none";
   document.body.style.color = "black";
-  document.body.classList.remove("big","shake");
+  document.body.classList.remove("shake");
 
-  document.getElementById("title").innerText = "⚡ FINAL CHAOS ⚡";
   score = 0;
-  document.getElementById("score").innerText = "CHAOS SCORE: 0";
-
-  document.querySelectorAll("button").forEach(b => {
-    b.classList.remove("purple");
-  });
-}
-
-function r() {
-  return Math.floor(Math.random() * 255);
+  document.getElementById("score").innerText = "Score: 0";
 }
 
 </script>
