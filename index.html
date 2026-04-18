@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MEGA CHAOS FIXED</title>
+  <title>ULTIMATE CHAOS EVERYTHING</title>
 
   <style>
     body {
@@ -9,15 +9,15 @@
       text-align: center;
       background: white;
       overflow: hidden;
-      transition: 0.2s;
+      transition: 0.3s;
     }
 
     #panel {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 6px;
-      margin-top: 10px;
+      gap: 8px;
+      margin-top: 20px;
     }
 
     button {
@@ -33,35 +33,68 @@
       50% { transform: translate(-2px,-2px); }
       100% { transform: translate(2px,2px); }
     }
+
+    .spinFast {
+      animation: spin 0.3s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 
 <body>
 
-<h1>⚡ TRUE MEGA CHAOS ⚡</h1>
+<h1 id="title">⚡ ULTIMATE CHAOS EVERYTHING ⚡</h1>
 <h3 id="score">Score: 0</h3>
 
 <div id="panel">
 
-  <button onclick="colorBurst()">🎨 Color Burst</button>
-  <button onclick="screenBlink()">⚡ Screen Blink</button>
-  <button onclick="zoomIn()">🔍 Zoom In</button>
-  <button onclick="zoomOut()">🔎 Zoom Out</button>
-  <button onclick="textFlip()">🔄 Text Flip</button>
-  <button onclick="gravityOn()">⬇️ Gravity ON</button>
-  <button onclick="gravityOff()">⬆️ Gravity OFF</button>
-  <button onclick="emojiStorm()">🌪 Emoji Storm</button>
-  <button onclick="freeze()">🧊 Freeze Page</button>
-  <button onclick="unfreeze()">🔥 Unfreeze</button>
-  <button onclick="titleChaos()">🧠 Title Chaos</button>
-  <button onclick="reset()">🔄 Reset</button>
+<!-- OLD BUTTONS -->
+<button onclick="randomColor()">🎨 Color</button>
+<button onclick="flash()">⚡ Flash</button>
+<button onclick="grow()">📏 Grow</button>
+<button onclick="shrink()">📉 Shrink</button>
+<button onclick="rain()">🌧 Rain</button>
+<button onclick="earthquake()">🌍 Earthquake</button>
+<button onclick="night()">🌙 Night</button>
+<button onclick="day()">☀️ Day</button>
+<button onclick="bounce()">🏀 Bounce</button>
+<button onclick="spawn()">👾 Spawn</button>
+<button onclick="shake()">📳 Shake</button>
+
+<!-- NEW 20 BUTTONS -->
+<button onclick="randomFont()">🔤 Font</button>
+<button onclick="moveTitle()">➡ Move</button>
+<button onclick="duplicateTitle()">🧬 Clone</button>
+<button onclick="hideTitle()">🙈 Hide</button>
+<button onclick="showTitle()">👀 Show</button>
+<button onclick="spinFast()">🌀 Spin Fast</button>
+<button onclick="stopSpin()">🛑 Stop Spin</button>
+<button onclick="addBorder()">🟥 Border</button>
+<button onclick="removeBorder()">⬜ No Border</button>
+<button onclick="randomEmoji()">😄 Emoji</button>
+<button onclick="roundButtons()">⚪ Round</button>
+<button onclick="squareButtons()">⬛ Square</button>
+<button onclick="shadow()">🌑 Shadow</button>
+<button onclick="noShadow()">☀️ No Shadow</button>
+<button onclick="slowMotion()">🐢 Slow</button>
+<button onclick="normalSpeed()">🐇 Normal</button>
+<button onclick="textGrow()">📈 Big Text</button>
+<button onclick="textShrink()">📉 Small Text</button>
+<button onclick="lineThrough()">➖ Line</button>
+<button onclick="removeLine()">✔ No Line</button>
+
+<!-- RESET -->
+<button onclick="reset()">🔄 RESET ALL</button>
 
 </div>
 
 <script>
 
 let score = 0;
-let gravityInterval;
 
 function add(n){
   score += n;
@@ -70,14 +103,14 @@ function add(n){
 
 function r(){ return Math.floor(Math.random()*255); }
 
-/* 🎨 COLOR BURST */
-function colorBurst(){
+/* ===== OLD FUNCTIONS ===== */
+
+function randomColor(){
   document.body.style.background = `rgb(${r()},${r()},${r()})`;
   add(1);
 }
 
-/* ⚡ BLINK */
-function screenBlink(){
+function flash(){
   document.body.style.background = "white";
   setTimeout(()=>{
     document.body.style.background = `rgb(${r()},${r()},${r()})`;
@@ -85,104 +118,185 @@ function screenBlink(){
   add(2);
 }
 
-/* 🔍 ZOOM */
-function zoomIn(){
-  document.body.style.transform = "scale(1.3)";
+function grow(){
+  document.body.style.transform = "scale(1.2)";
   add(2);
 }
 
-function zoomOut(){
-  document.body.style.transform = "scale(0.7)";
+function shrink(){
+  document.body.style.transform = "scale(0.8)";
   add(2);
 }
 
-/* 🔄 TEXT FLIP */
-function textFlip(){
-  document.body.style.transform = "rotateY(180deg)";
-  add(3);
-}
-
-/* ⬇️ GRAVITY */
-function gravityOn(){
-  clearInterval(gravityInterval);
-
-  document.querySelectorAll("button").forEach(btn=>{
-    let t = 0;
-    gravityInterval = setInterval(()=>{
-      t += 5;
-      btn.style.position = "relative";
-      btn.style.top = t + "px";
-    },30);
-  });
-
-  add(5);
-}
-
-function gravityOff(){
-  clearInterval(gravityInterval);
-  document.querySelectorAll("button").forEach(btn=>{
-    btn.style.top = "0px";
-  });
-  add(2);
-}
-
-/* 🌪 EMOJI STORM */
-function emojiStorm(){
-  let emojis = ["🔥","💀","👾","💥","🎉"];
-
-  for(let i=0;i<20;i++){
+function rain(){
+  for(let i=0;i<15;i++){
     let e = document.createElement("div");
-    e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+    e.innerText = "🎉";
     e.style.position = "absolute";
-    e.style.left = Math.random()*window.innerWidth + "px";
+    e.style.left = Math.random()*window.innerWidth+"px";
     e.style.top = "-20px";
     document.body.appendChild(e);
 
     let fall = setInterval(()=>{
-      e.style.top = e.offsetTop + 6 + "px";
+      e.style.top = e.offsetTop + 5 + "px";
       if(e.offsetTop > window.innerHeight){
         e.remove();
         clearInterval(fall);
       }
     },20);
   }
-
-  add(4);
-}
-
-/* 🧊 FREEZE */
-function freeze(){
-  document.body.style.pointerEvents = "none";
   add(3);
 }
 
-/* 🔥 UNFREEZE */
-function unfreeze(){
-  document.body.style.pointerEvents = "auto";
+function earthquake(){
+  document.body.classList.toggle("shake");
+  add(3);
+}
+
+function night(){
+  document.body.style.background = "#000";
+  document.body.style.color = "#fff";
   add(2);
 }
 
-/* 🧠 TITLE CHAOS */
-function titleChaos(){
-  let t = document.querySelector("h1");
-  let words = ["CHAOS","BROKEN","GLITCH","WOW","ERROR","FUN"];
-  t.innerText = words[Math.floor(Math.random()*words.length)];
-  add(3);
+function day(){
+  document.body.style.background = "#fff";
+  document.body.style.color = "#000";
+  add(2);
 }
 
-/* 🔄 RESET */
-function reset(){
-  document.body.style = "";
-  document.body.classList.remove("shake");
+function bounce(){
+  let t = document.getElementById("title");
+  let pos = 0, dir = 2;
+  let move = setInterval(()=>{
+    pos += dir;
+    t.style.position = "relative";
+    t.style.top = pos+"px";
+    if(pos>30 || pos<0) dir*=-1;
+  },20);
+  setTimeout(()=>clearInterval(move),2000);
+  add(5);
+}
+
+function spawn(){
+  for(let i=0;i<10;i++){
+    let e = document.createElement("div");
+    e.innerText = "👾";
+    e.style.position = "absolute";
+    e.style.left = Math.random()*window.innerWidth+"px";
+    e.style.top = Math.random()*window.innerHeight+"px";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),3000);
+  }
+  add(5);
+}
+
+function shake(){
+  document.body.classList.toggle("shake");
+  add(2);
+}
+
+/* ===== NEW FUNCTIONS ===== */
+
+function randomFont(){
+  let fonts = ["Courier","Georgia","Verdana","Comic Sans MS"];
+  document.body.style.fontFamily =
+    fonts[Math.floor(Math.random()*fonts.length)];
+}
+
+function moveTitle(){
+  let t = document.getElementById("title");
+  t.style.position = "absolute";
+  t.style.left = Math.random()*window.innerWidth+"px";
+  t.style.top = Math.random()*window.innerHeight+"px";
+}
+
+function duplicateTitle(){
+  let t = document.getElementById("title");
+  let clone = t.cloneNode(true);
+  clone.style.position = "absolute";
+  clone.style.top = Math.random()*window.innerHeight+"px";
+  document.body.appendChild(clone);
+}
+
+function hideTitle(){
+  document.getElementById("title").style.display = "none";
+}
+
+function showTitle(){
+  document.getElementById("title").style.display = "block";
+}
+
+function spinFast(){
+  document.body.classList.add("spinFast");
+}
+
+function stopSpin(){
+  document.body.classList.remove("spinFast");
+}
+
+function addBorder(){
+  document.body.style.border = "10px solid red";
+}
+
+function removeBorder(){
+  document.body.style.border = "none";
+}
+
+function randomEmoji(){
+  let emojis = ["😈","🤖","👻","💥","🔥"];
+  document.getElementById("title").innerText =
+    emojis[Math.floor(Math.random()*emojis.length)];
+}
+
+function roundButtons(){
   document.querySelectorAll("button").forEach(b=>{
-    b.style.position = "";
-    b.style.top = "";
+    b.style.borderRadius = "20px";
   });
+}
 
-  document.querySelector("h1").innerText = "⚡ TRUE MEGA CHAOS ⚡";
+function squareButtons(){
+  document.querySelectorAll("button").forEach(b=>{
+    b.style.borderRadius = "0px";
+  });
+}
 
-  score = 0;
-  document.getElementById("score").innerText = "Score: 0";
+function shadow(){
+  document.body.style.boxShadow = "0 0 50px black inset";
+}
+
+function noShadow(){
+  document.body.style.boxShadow = "none";
+}
+
+function slowMotion(){
+  document.body.style.transition = "2s";
+}
+
+function normalSpeed(){
+  document.body.style.transition = "0.3s";
+}
+
+function textGrow(){
+  document.body.style.fontSize = "30px";
+}
+
+function textShrink(){
+  document.body.style.fontSize = "10px";
+}
+
+function lineThrough(){
+  document.body.style.textDecoration = "line-through";
+}
+
+function removeLine(){
+  document.body.style.textDecoration = "none";
+}
+
+/* ===== RESET ===== */
+
+function reset(){
+  location.reload();
 }
 
 </script>
